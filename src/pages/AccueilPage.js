@@ -2,11 +2,14 @@
 
 import React, {useState, useEffect} from "react";
 import AccueilPageAPI from "../services/AccueilPageAPI";
-import {Button, Card} from "react-bootstrap";
+import {Button, Card, Nav} from "react-bootstrap";
 import cafe from "../img/cafe.jpg";
 import Panier from "../components/Panier";
 import panier from "../services/servicePanier";
 import {Link} from "react-router-dom";
+import updateActivationProduit from "../services/admin/updateActivationProduitAPI";
+import IMGperson from "../img/person.svg";
+import AuthAPI from "../services/AuthAPI";
 
 const AccueilPage = ({history}) => {
 
@@ -28,20 +31,31 @@ const AccueilPage = ({history}) => {
     }, [])
 
 
-/*    const addPanierLocalStorage = (e) => {
-        let panier = [];
-        // recuperer le tableau des produits du panier
-        if(localStorage.getItem("panier") != null){
-            panier = (JSON.parse(localStorage.getItem("panier")));
+    const updateActivation = async (activation, idProduit) => {
+        try {
+            let _activation;
+            if(activation){
+                _activation = false
+            }
+            else {
+                _activation = true
+            }
+            await updateActivationProduit(_activation, idProduit);
+            window.location.reload();
+
+        } catch (error){
+            console.log(error);
         }
-        panier.push([e.target.value]);
-        localStorage.setItem("panier", JSON.stringify(panier));
-
-
-    }*/
+    }
 
     const voirDetail = (e) => {
         history.push(`/Produit/${e.target.value}`)
+    }
+    const isAdmin = () => {
+        if(AuthAPI.isAdmin()){
+            return true;
+        }
+        return false;
     }
 
     return (
@@ -71,6 +85,11 @@ const AccueilPage = ({history}) => {
 
 
                                     <Button  onClick={voirDetail} value={produit.idProduit} variant="primary" className="btn-success"> Voir </Button>
+
+                                    {(isAdmin() && (
+                                        <Button  onClick={() => updateActivation(produit.activation, produit.idProduit)}> {produit.activation ? "Activer" : "Désactiver"} </Button>
+
+                                    ))}
 
                                 </div>
                             </Card>

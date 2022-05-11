@@ -14,14 +14,13 @@ const Inscription = ({history}) => {
     const [CP, setCP] = useState("");
     const [ville, setVille] = useState("");
     const [tel, setTel] = useState("");
-    const [abonnement, setAbonnement] = useState(false);
 
 
     // Soumission du formulaire
     const handleSubmit = async e => {
         e.preventDefault();
 
-        AuthAPI.register(email,password,nom,prenom, libRue, CP, ville, tel, abonnement);
+        AuthAPI.register(email,password,nom,prenom, libRue, CP, ville, tel);
 /*        const token = await AuthAPI.logIn(email,password);
         localStorage.setItem("token",token);*/
         //onLogIn(true); // setIsAuthenticated(true)
@@ -74,10 +73,6 @@ const Inscription = ({history}) => {
                     <Form.Label>Mot de passe</Form.Label>
                     <Form.Control type="password"  placeholder="Entrez votre numéro de mot de passe" required
                                   onChange={e => setPassword(e.target.value)}/>
-                </Form.Group>
-
-                <Form.Group className="mb-3" controlId="formBasicCheckbox">
-                    <Form.Check type="checkbox" label="S'inscrire à la newsletter"  onChange={e => setAbonnement(e.target.checked)} />
                 </Form.Group>
 
                 <Button variant="primary" type="submit">

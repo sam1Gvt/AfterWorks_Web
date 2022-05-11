@@ -25,6 +25,7 @@ import AjoutRedac from "./pages/administrateur/AjoutRedacteur";
 import GestionRedacteur from "./pages/administrateur/GestionRedacteur";
 import Newsletter from "./pages/Newsletter";
 import Panier from "./pages/Panier";
+import SuivieCommande from "./pages/SuivieCommande";
 
 function App() {
 
@@ -57,6 +58,7 @@ function App() {
               <Route exact path="/Rubrique/Article/:idArticle" component={ArticleDetail} />
               <Route exact path="/Newsletter" component={Newsletter} />
               <Route exact path="/Panier" component={Panier}/>
+              <Route exact path="/SuivieCommande" component={SuivieCommande}/>
 
 
             {/*Refaire eventuellement les chemins pour les rendre plus explicite*/}

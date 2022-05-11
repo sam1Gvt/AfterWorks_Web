@@ -44,6 +44,16 @@ const isRedac = () => {
     return false;
 }
 
+const isUser = () => {
+    const arrayRoles = seeRoles();
+    for(let i=0; i<arrayRoles.length; i++) {
+        if("ROLE_USER" === arrayRoles[i] || "ROLE_REDAC" === arrayRoles[i] || "ROLE_ADMIN" === arrayRoles[i] ) {
+            return true
+        }
+    }
+    return false;
+}
+
 const isAdmin = () => {
     const arrayRoles = seeRoles();
     for(let i=0; i<arrayRoles.length; i++) {
@@ -54,12 +64,7 @@ const isAdmin = () => {
     return false;
 }
 
-const register = (email,password,nom,prenom, libRue, CP, ville, tel, abonnement ) => {
-
-    // met a 0 sinon ne prend pas en compte le false
-    if (abonnement === false){
-        abonnement = 0;
-    }
+const register = (email,password,nom,prenom, libRue, CP, ville, tel ) => {
 
     return axios
         .post ("/inscription", {
@@ -71,12 +76,11 @@ const register = (email,password,nom,prenom, libRue, CP, ville, tel, abonnement 
             "lib_rue_utilisateur":libRue,
             "CP_utilisateur" : CP,
             "ville_utilisateur": ville,
-            "tel_utilisateur" : tel,
-            "abonnement_newsletter":abonnement
+            "tel_utilisateur" : tel
         })
         .then()
 }
 
 
 
-export default { logIn, logOut, isAuthenticated, register, seeRoles, isRedac, isAdmin};
+export default { logIn, logOut, isAuthenticated, register, seeRoles, isRedac, isAdmin, isUser};

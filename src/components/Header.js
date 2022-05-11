@@ -110,10 +110,12 @@ return (
 
                     ))
                     }
+
                 </Nav>
 
 
                 <Nav>
+                    <Nav.Link href="/SuivieCommande" className="nav-link " >Suivie Commande | </Nav.Link>
                     <Nav.Link href="/Panier" className="nav-link " >Panier | </Nav.Link>
                 </Nav>
 

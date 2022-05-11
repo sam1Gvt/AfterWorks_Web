@@ -7,6 +7,8 @@ import {useParams} from "react-router-dom";
 import {Button, Card} from "react-bootstrap";
 import cafe from "../img/cafe.jpg";
 import errorPage from "./ErrorPage";
+import updateActivationProduit from "../services/admin/updateActivationProduitAPI";
+import AuthAPI from "../services/AuthAPI";
 
 const ProduitsParCategorie = ({history}) => {
 
@@ -27,6 +29,32 @@ const ProduitsParCategorie = ({history}) => {
         fetchCategory();
     }, [])
 
+    const updateActivation = async (activation, idProduit) => {
+        try {
+            let _activation;
+            if(activation){
+                _activation = false
+            }
+            else {
+                _activation = true
+            }
+            await updateActivationProduit(_activation, idProduit);
+            window.location.reload();
+
+        } catch (error){
+            console.log(error);
+        }
+    }
+    const voirDetail = (e) => {
+        history.push(`/Produit/${e.target.value}`)
+    }
+    const isAdmin = () => {
+        if(AuthAPI.isAdmin()){
+            return true;
+        }
+        return false;
+    }
+
     return  (
 
 
@@ -36,7 +64,7 @@ const ProduitsParCategorie = ({history}) => {
             <div className="row">
                 { category.map(produit => {
 
-                    return <div className="col-sm" key={produit.idProduit}>
+                    return (<div className="col-sm" key={produit.idProduit}>
                         <Card style={{ width: '350px', height: '400px', marginBottom: "50px" }} >
                             <a href={`/Produit/${produit.idProduit}`}> <Card.Img variant="top" src={cafe}  /></a>
                             <Card.Body>
@@ -49,10 +77,18 @@ const ProduitsParCategorie = ({history}) => {
 
                             </Card.Body>
                             <div >
-                                <Button  onClick="ok" variant="primary" className="btn-success">Ajouter Panier</Button>
+
+
+                                <Button  onClick={voirDetail} value={produit.idProduit} variant="primary" className="btn-success"> Voir </Button>
+
+                                {(isAdmin() && (
+                                    <Button  onClick={() => updateActivation(produit.activation, produit.idProduit)}> {produit.activation ? "Activer" : "Désactiver"} </Button>
+
+                                ))}
+
                             </div>
                         </Card>
-                    </div>
+                    </div> )
 
                 })
 
